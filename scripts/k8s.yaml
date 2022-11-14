@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: online-stat
+  namespace: k3s-apps
+spec:
+  selector:
+    matchLabels:
+      app: online-stat
+  replicas: 2
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: online-stat
+    spec:
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/Asia/Shanghai
+      - name: online-stat-conf
+        configMap:
+          name: online-stat-config
+      containers:
+      - name: online-stat
+        image: aaronzjc/online-stat:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 7980
+        volumeMounts:
+        - name: online-stat-conf
+          mountPath: /app/conf
+        resources:
+          limits:
+            cpu: 50m
+            memory: 50Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: online-stat-svc
+  namespace: k3s-apps
+spec:
+  selector:
+    app: online-stat
+  ports:
+  - port: 80
+    targetPort: 7980
