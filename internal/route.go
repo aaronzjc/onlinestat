@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -22,7 +23,14 @@ func GetOnline(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	fmt.Fprint(w, count)
 }
 
+func GetOnlineDump(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	ips := OnlineStater.Dump(ps.ByName("app"))
+	jsonIps, _ := json.Marshal(ips)
+	fmt.Fprint(w, string(jsonIps))
+}
+
 func RegistRoutes(r *httprouter.Router) {
 	r.POST("/online/:app/:ip", SetOnline)
 	r.GET("/online/:app", GetOnline)
+	r.GET("/online/:app/dump", GetOnlineDump)
 }

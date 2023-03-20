@@ -16,12 +16,17 @@ type RedisConfig struct {
 	Password string `yaml:"password"`
 	Database int    `yaml:"database"`
 }
+type AppConfig struct {
+	Timeout int         `yaml:"timeout"`
+	Redis   RedisConfig `yaml:"redis"`
+}
 
 type Config struct {
-	Name string                 `yaml:"name"`
-	Env  string                 `yaml:"env"`
-	Http HttpConfig             `yaml:"http"`
-	Apps map[string]RedisConfig `yaml:"apps"`
+	Name   string               `yaml:"name"`
+	Env    string               `yaml:"env"`
+	Http   HttpConfig           `yaml:"http"`
+	Driver string               `yaml:"driver"`
+	Apps   map[string]AppConfig `yaml:"apps"`
 }
 
 var (

@@ -2,14 +2,9 @@ name: "online-stat"
 env: dev
 http:
   port: 8980
+driver: memory
 apps:
   prin:
-    host: 127.0.0.1
-    port: 7379
-    password: 
-    database: 3
+    timeout: 30
   mu:
-    host: 127.0.0.1
-    port: 7379
-    password: 
-    database: 5
+    timeout: 30

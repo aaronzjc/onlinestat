@@ -58,7 +58,7 @@ func setup(ctx *cli.Context) error {
 	}
 
 	// 初始化统计后端
-	if err = internal.SetupStater(internal.GetConfig()); err != nil {
+	if err = internal.SetupStater(); err != nil {
 		return err
 	}
 	return nil
